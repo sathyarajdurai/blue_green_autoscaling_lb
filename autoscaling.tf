@@ -21,7 +21,7 @@ resource "aws_autoscaling_group" "blue_asg" {
 
   tag {
     key                 = "Name"
-    value               = "blue-server"
+    value               = "blue-server-${timestamp()}"
     propagate_at_launch = true
   }
 }
@@ -82,17 +82,6 @@ resource "aws_cloudwatch_metric_alarm" "cpu_alarm_blue_scaledown" {
   alarm_actions     = [aws_autoscaling_policy.blue_asg_policy_scaledown.arn]
 }
 
-data "aws_ami" "green_id" {
-
-  filter {
-    name   = "name"
-    values = ["AMI-BUILD-Green-*"]
-  }
-
-  owners = ["151926427169"] # Canonical
-}
-
-
 resource "aws_launch_configuration" "green_conf" {
   name                 = "green-config"
   image_id             = data.aws_ami.green_id.id
@@ -115,7 +104,7 @@ resource "aws_autoscaling_group" "green_asg" {
 
   tag {
     key                 = "Name"
-    value               = "green-server"
+    value               = "green-server-${timestamp()}"
     propagate_at_launch = true
   }
 }

@@ -2,7 +2,7 @@ data "aws_ami" "blue_id" {
 
   filter {
     name   = "name"
-    values = ["AMI-BUILD-Blue-*"]
+    values = ["AMI-BUILD-Blue"]
   }
 
   owners = ["151926427169"] # Canonical
@@ -11,6 +11,16 @@ data "aws_ami" "blue_id" {
 output "id" {
   value = data.aws_ami.blue_id.id
 
+}
+
+data "aws_ami" "green_id" {
+
+  filter {
+    name   = "name"
+    values = ["AMI-BUILD-Green"]
+  }
+
+  owners = ["151926427169"] # Canonical
 }
 
 data "aws_key_pair" "eu_key" {
@@ -71,15 +81,16 @@ data "aws_instance" "blue_inst" {
   #instance_state = "running"
   filter {
     name   = "tag:Name"
-    values = ["blue-server"]
+    values = ["blue-server-*"]
   }
-
+  depends_on = [aws_autoscaling_group.blue_asg]
 }
 
 data "aws_instance" "green_inst" {
   #instance_id = "*"
   filter {
     name   = "tag:Name"
-    values = ["green-server"]
+    values = ["green-server-*"]
   }
+  depends_on = [aws_autoscaling_group.green_asg]
 }
