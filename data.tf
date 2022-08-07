@@ -76,21 +76,21 @@ data "aws_vpc" "vpc_lb" {
   }
 }
 
-data "aws_instance" "blue_inst" {
-  # instance_id = "*"
-  #instance_state = "running"
-  filter {
-    name   = "tag:Name"
-    values = ["blue-server-*"]
-  }
-  depends_on = [aws_autoscaling_group.blue_asg]
-}
+# data "aws_instance" "blue_inst" {
+#   # instance_id = "*"
+#   #instance_state = "running"
+#   filter {
+#     name   = "tag:Name"
+#     values = ["blue-server-*"]
+#   }
+#   depends_on = [aws_autoscaling_group.blue_asg]
+# }
 
-data "aws_instance" "green_inst" {
-  #instance_id = "*"
-  filter {
-    name   = "tag:Name"
-    values = ["green-server-*"]
-  }
-  depends_on = [aws_autoscaling_group.green_asg]
-}
+# data "aws_instance" "green_inst" {
+#   #instance_id = "*"
+#   filter {
+#     name   = "tag:Name"
+#     values = ["green-server-*"]
+#   }
+#   depends_on = [aws_autoscaling_group.green_asg]
+# }
