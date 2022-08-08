@@ -6,6 +6,13 @@ resource "aws_launch_configuration" "blue_conf" {
   key_name             = data.aws_key_pair.eu_key.key_name
   security_groups      = [data.aws_security_group.bl_gr_server.id]
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.id
+  user_data = <<EOF
+  #!/bin/bash
+  sudo su apt-get update
+  sudo su apt-get install stress
+  sleep 600
+  stress --cpu 2 --timeout 600
+  EOF
 }
 
 resource "aws_autoscaling_group" "blue_asg" {
@@ -89,6 +96,13 @@ resource "aws_launch_configuration" "green_conf" {
   key_name             = data.aws_key_pair.eu_key.key_name
   security_groups      = [data.aws_security_group.bl_gr_server.id]
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.id
+  user_data = <<EOF
+  #!/bin/bash
+  sudo su apt-get update
+  sudo su apt-get install stress
+  sleep 600
+  stress --cpu 2 --timeout 600
+  EOF
 }
 
 resource "aws_autoscaling_group" "green_asg" {
